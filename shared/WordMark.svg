@@ -1,0 +1,44 @@
+<!-- Can I have it where I pull different elements? -->
+
+<svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Lexend+Mega&display=swap');
+        
+        .namemark { 
+            font: bold 45px sans-serif; 
+            font-family: 'Lexend Mega';
+            fill: hsl(80,40%,50%);
+        }        
+       
+    </style>
+    <filter id='blurShadow'>
+        
+      
+        <feDropShadow dx="0.7" dy="1.4" stdDeviation="1." flood-color="hsl(320,20%,20%)" in="source" out="shadow"/>
+        <feMerge result="logo">
+        <feMergeNode in="shadow" />
+        <feMergeNode in="SourceGraphic" />
+        </feMerge>
+        <feSpecularLighting result="specOut"
+        specularExponent="20" lighting-color="#bbbbbb">
+      <fePointLight x="50" y="75" z="200"/>
+    </feSpecularLighting>
+    <feComposite in="SourceGraphic" in2="specOut"
+        operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+<!-- make the japaning texture -->
+        <!-- <feTurbulence type="turbulence" baseFrequency="0.05"
+        numOctaves="2" result="turbulence"/>
+    <feDisplacementMap in2="turbulence" in="SourceGraphic"
+        scale="50" xChannelSelector="R" yChannelSelector="G"/> -->
+    </filter>
+
+    </defs>
+    <rect x=0 y=0 height=38% width=100% style="fill:hsl(320,40%,30%)"/>    
+    <text x=15 y=40 class="namemark" filter='url(#blurShadow)'>
+        kidLOMO
+    </text>
+   
+</svg>
+
+<!-- http://nimbupani.com/about-fonts-in-svg.html -->
