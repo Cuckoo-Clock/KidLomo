@@ -13,4 +13,11 @@ export const loadingStyles = StyleSheet.create({
     }
 });
 
-export const primaryColor = 'hsl(180,90%,40%)'
+export const generalStyles = StyleSheet.create({
+    view:{
+        alignItems: 'flex-start';
+    }
+})
+
+export const primaryColor = 'hsl(180,40%,95%)'
+export const bgColor = 'hsl(320,40%,30%)'

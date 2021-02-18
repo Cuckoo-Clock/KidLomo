@@ -1,9 +1,30 @@
-import React from 'react';
-import { View, Platform } from "react-native"; //read up on platform considerations
+import React, { Component }  from 'react';
+import { 
+  View, 
+  Platform, 
+  Text,
+  ScrollView,
+  Image,
+  Alert,
+  ToastAndroid // this is like alert?
+} from "react-native"; //read up on platform considerations
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { connect } from 'react-redux';
+// import { Icon } from 'react-native-elements' //don't have this yet?
+
+import { generalStyles } from '../shared/styles';
+import { fetchGallery, fetchUser, fetchPrompts, fetchParentalControls } from '../Redux/ActionCreators'
 // tab navigator
 // How do I do authentication?
+
+//distribute the content from the store.
+const mapDispatchtoProps = {
+  fetchGallery,
+  fetchParentalControls,
+  fetchPrompts, 
+  fetchUser
+}
 
 
 const HomeNavigator = createStackNavigator(
