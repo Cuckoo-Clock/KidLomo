@@ -1,73 +1,60 @@
-import React, { Component }  from 'react';
-import { 
-  View, 
-  Platform, 
-  Text,
-  ScrollView,
-  Image,
-  Alert,
-  ToastAndroid // this is like alert?
-} from "react-native"; //read up on platform considerations
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import React, { Component } from "react";
+import { View, Text, ScrollView} from "react-native";
+import { Card } from "react-native-elements";
 import { connect } from 'react-redux';
-// import { Icon } from 'react-native-elements' //don't have this yet?
+import { baseUrl } from "../shared/baseUrl";
+import  Loading  from "./Loading";
 
-import { generalStyles } from '../shared/styles';
-import { fetchGallery, fetchUser, fetchPrompts, fetchParentalControls } from '../Redux/ActionCreators'
-// tab navigator
-// How do I do authentication?
-
-//distribute the content from the store.
-const mapDispatchtoProps = {
-  fetchGallery,
-  fetchParentalControls,
-  fetchPrompts, 
-  fetchUser
+const mapStateToProps = state => {
+    return{
+        prompts: state.prompts,
+        user: state.prompts,
+    };
 }
 
-
-const HomeNavigator = createStackNavigator(
-    {
-      Home: { screen: Home },
-    },
-    {
-      defaultNavigationOptions: {
-        headerStyle: { backgroundColor: "#5637DD" },
-        headerTintColor: "#fff",
-        headerTitleStyle: { color: "#fff" },
-      },
+function RenderItem({item, isLoading, errMess}){
+    if(isLoading){
+        return <Loading/>; 
     }
-  );
-
-
-const MainNavigator = createDrawerNavigator(
-    {
-      Home: { screen: HomeNavigator }, // have a parent link on this page.
-      Camera: { screen: CameraNavigator }, // Stickers are navigatable
-      Gallery: { screen: GalleryNavigator }, // links to family members and sharing
-      Challenges: { screen: ChallengeNavigator }, // cards of prompts
-    },
-    // this optional second arguemnet sets styles.
-    {
-      drawerBackgroundColor: "hsl(320,60%,40%)", //does it accept hsl?
-    }
-  );
-
-const AppNavigator = createAppContainer(MainNavigator); // creates app containe, outer most wrapper for navigation. right?
-
-export default class Home extends Component{
-    render(){
+    if (errMess){
         return(
-            <View
-                style={{
-                    flex= 1, //read up on this style choice
-                    Platform.OS === "ios" ? 0 : Expo.Constants.statusBarHeight, //this is responding to the default bits of androids screen, but read up on documentation.
-                }}
-            >
-                <AppNavigator />
+            <View>
+                <Text>{errMess}</Text>
             </View>
         );
     }
+    
+    if (item){
+        return(
+            <Card
+            featuredTitle={item.title} //prompt name
+            >
+                
+                <Text style={{margin:10}}>
+                    {item.description //prompt instructions
+                    } 
+                </Text>
+            </Card>
+        );
+    }
+    return <View />
 }
+
+class Home extends Component {
+    render(){
+        return(
+            <ScrollView style={{transform: [{scale: this.state.scaleValue}]}}>
+                <Text>Welcome {this.props.user.name}</Text>
+                <RenderItem
+                    item={this.props.prompts.prompts.filter(prompt => prompt.featured)[0]}
+                    isLoading={this.props.prompts.isLoading}
+                    errMess={this.props.prompts.errMess}
+                />    
+            </ScrollView>
+        );
+    }
+
+}
+
+export default connect(mapStateToProps)(Home);
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import  Home from "./components/Home";
+import  Main from "./Components/Main";
 import { Provider } from "react-redux";
-import { ConfigureStore } from "./redux/configureStore";
+import { ConfigureStore } from "./Redux/ConfigureStore";
 import { PersistGate } from 'redux-persist/es/integration/react';
-import Loading from "./components/LoadingComponent";
+import Loading from "./Components/Loading";
 
 const {persistor, store} = ConfigureStore();
 
@@ -14,7 +14,7 @@ export default function App() {
         Loading={<Loading/>}
         persistor={persistor}
       >
-        <Home/>
+        <Main/>
       </PersistGate>
     </Provider>
   );
